@@ -3,7 +3,7 @@ import jwt
 from ninja.security import HttpBearer
 from django.conf import settings
 
-from config.ninja_utils.errors import NinjaError
+from config.utils.errors import NinjaError
 
 
 class AuthBearer(HttpBearer):

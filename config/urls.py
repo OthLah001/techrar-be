@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import path
 
 from apps.merchants.views import merchants_api
+from apps.campaigns.views.templates import templates_api
+from apps.campaigns.views.campaigns import campaigns_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/merchants/', merchants_api.urls),
+    path('api/templates/', templates_api.urls),
+    path('api/campaigns/', campaigns_api.urls),
 ]

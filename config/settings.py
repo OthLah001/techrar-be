@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "apps.merchants",
+    "apps.campaigns",
 ]
 
 MIDDLEWARE = [
