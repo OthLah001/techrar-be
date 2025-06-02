@@ -1,0 +1,70 @@
+[
+    {
+        "model": "merchants.Merchant",
+        "pk": 1,
+        "fields": {
+            "name": "Othmane Store",
+            "email": "othmane.lahrimi.work@gmail.com",
+            "mobile": "+21257889489",
+            "password": "pbkdf2_sha256$1000000$gTkw9iCcAJMoLIgyMxkmpg$7dkzXgyHn/an4tC9Ilp84yP15WHoGeA8tHXZCkfJcCU=",
+            "created_at": "2025-05-10T12:00:00Z",
+            "updated_at": "2025-05-10T12:00:00Z"
+        }
+    },
+    {
+        "model": "campaigns.Template",
+        "pk": 1,
+        "fields": {
+            "name": "Welcome Template",
+            "body": "Hi, welcome to Othmane Store!",
+            "created_at": "2025-05-10T12:00:00Z",
+            "updated_at": "2025-05-10T12:00:00Z"
+        }
+    },
+    {
+        "model": "campaigns.Template",
+        "pk": 2,
+        "fields": {
+            "name": "Discount Offer",
+            "body": "Hello, you have a 20% discount on your next order!",
+            "created_at": "2025-05-10T12:00:00Z",
+            "updated_at": "2025-05-10T12:00:00Z"
+        }
+    },
+    {
+        "model": "campaigns.Provider",
+        "pk": 1,
+        "fields": {
+            "name": "Twilio",
+            "provider_type": "twilio",
+            "channel": [
+                "sms",
+                "whatsapp"
+            ],
+            "config": {
+                "account_sid": "twilio_account_sid_123",
+                "auth_token": "twilio_auth_token_456",
+                "whatsapp_number": "+14155238806",
+                "sms_number": "+1234567890"
+            },
+            "created_at": "2025-05-10T12:00:00Z",
+            "updated_at": "2025-05-10T12:00:00Z"
+        }
+    },
+    {
+        "model": "campaigns.Provider",
+        "pk": 2,
+        "fields": {
+            "name": "SendGrid",
+            "provider_type": "sendgrid",
+            "channel": [
+                "email"
+            ],
+            "config": {
+                "api_key": "sendgrid_api_key_789"
+            },
+            "created_at": "2025-05-10T12:00:00Z",
+            "updated_at": "2025-05-10T12:00:00Z"
+        }
+    }
+]
