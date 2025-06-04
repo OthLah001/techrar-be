@@ -30,7 +30,7 @@ class Campaign(BaseModel):
     template = models.ForeignKey('Template', on_delete=models.SET_NULL, null=True, blank=True)
     provider = models.ForeignKey('Provider', on_delete=models.SET_NULL, null=True, blank=True)
     channel = models.CharField(max_length=50, choices=ChannelTypes.choices, default=ChannelTypes.EMAIL)
-    subject = models.CharField(max_length=255, null=True, blank=True)
+    subject = models.CharField(max_length=255)
     message = models.TextField()
     status = models.CharField(max_length=50, choices=StatusTypes.choices, default=StatusTypes.DRAFT)
     scheduled_at = models.DateTimeField(null=True, blank=True)

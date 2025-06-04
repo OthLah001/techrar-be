@@ -69,7 +69,7 @@ def create_campaign(
     template_id: int = Form(...),
     provider_id: int = Form(...),
     channel: Campaign.ChannelTypes = Form(...),
-    subject: str | None = Form(None),
+    subject: str = Form(...),
     message: str = Form(...),
     scheduled_at: AwareDatetime | None = Form(None),
     recipients_file: UploadedFile = File(...)
@@ -92,7 +92,7 @@ def create_campaign(
         if len(recipients) == 0 or not all(recipients):
             raise NinjaError(message="No valid recipients found in the file.", status_code=400, error_name="invalid_recipients")
     except Exception as e:
-        raise NinjaError(message=f"Error reading file: {str(e)}", status_code=400, error_name="file_read_error")
+        raise NinjaError(message=f"An error occurred while reading the file.", status_code=400, error_name="file_read_error")
     
     try:
         campaign = Campaign.objects.create(
@@ -115,7 +115,7 @@ def create_campaign(
         else:
             transaction.on_commit(lambda: send_campaign_notifications_task.delay(campaign, recipients))
     except Exception as e:
-        raise NinjaError(message=f"Error creating campaign: {str(e)}", status_code=500, error_name="campaign_creation_error")
+        raise NinjaError(message=f"An error occurred while creating the campaign.", status_code=500, error_name="campaign_creation_error")
     
     return campaign
 
