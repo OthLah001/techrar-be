@@ -1,9 +1,9 @@
-from apps.campaigns.models import Campaign
+from apps.campaigns.models import Campaign, Notification
 from pydantic import AwareDatetime
 from apps.campaigns.tasks import send_campaign_notifications_task
 from apps.campaigns.utils.send_provider_notifications import send_twilio_whatsapp_notification
 from config.utils.authentication import auth_bearer
-from ninja import NinjaAPI, Schema, File, Form
+from ninja import Field, NinjaAPI, Schema, File, Form
 from ninja.pagination import paginate
 from ninja.files import UploadedFile
 import csv
@@ -120,3 +120,38 @@ def create_campaign(
     return campaign
 
 ##### Campaigns Create End #####
+
+
+##### Get Campaign By ID Start #####
+
+@campaigns_api.get("/{campaign_id}/", response=CampaignSchema)
+def get_campaign(request, campaign_id: int):
+    try:
+        campaign = Campaign.objects.select_related("provider").get(id=campaign_id, merchant=request.merchant)
+    except Campaign.DoesNotExist:
+        raise NinjaError(message="Campaign not found.", status_code=404, error_name="campaign_not_found")
+    
+    return campaign
+
+##### Get Campaign By ID End #####
+
+
+##### Campaigns Notifications List Start #####
+
+class NotificationSchema(Schema):
+    id: int
+    recipient: str
+    status: Notification.StatusTypes
+    created_at: AwareDatetime
+
+@campaigns_api.get("/{campaign_id}/notifications/", response=list[NotificationSchema])
+@paginate
+def list_campaign_notifications(request, campaign_id: int):
+    try:
+        campaign_qs = Campaign.objects.prefetch_related('notifications').get(id=campaign_id, merchant=request.merchant)
+    except Campaign.DoesNotExist:
+        raise NinjaError(message="Campaign not found.", status_code=404, error_name="campaign_not_found")
+    
+    return campaign_qs.notifications.all().order_by("created_at")
+
+###### Campaigns Notifications List End #####
