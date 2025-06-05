@@ -69,6 +69,12 @@ LIVE_ENV=False
 python manage.py migrate
 ```
 
+### **Apply Fixtures**
+
+```bash
+python manage.py loaddata init_fixtures
+```
+
 ### **Start Celery (for background tasks)**
 
 ```bash
