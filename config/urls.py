@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from apps.merchants.views import merchants_api
 from apps.campaigns.views.templates import templates_api
@@ -28,4 +30,4 @@ urlpatterns = [
     path('api/templates/', templates_api.urls),
     path('api/campaigns/', campaigns_api.urls),
     path('api/providers/', providers_api.urls),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

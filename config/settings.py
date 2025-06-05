@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import environ
+import os
 
 # Init environment variables
 env = environ.Env()
@@ -24,6 +25,8 @@ DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
+    "techrar-be-2f167e3dd00e.herokuapp.com",
+    "techrar-fe-9494318445c3.herokuapp.com"
 ]
 
 
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -55,6 +59,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://127.0.0.1:8000",
+    "https://techrar-be-2f167e3dd00e.herokuapp.com",
+    "https://techrar-fe-9494318445c3.herokuapp.com"
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -128,7 +134,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# MEDIA CONFIGURATION
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -140,3 +151,8 @@ CELERY_BROKER_URL = env("REDIS_URL")
 CELERY_RESULT_BACKEND = env("REDIS_URL")
 CELERY_ACCEPT_CONTENT = ["application/json", "application/x-python-serialize"]
 CELERY_TASK_SERIALIZER = "pickle"
+
+# Security settings
+if IS_LIVE_ENV:
+    SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
